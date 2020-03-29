@@ -1,0 +1,86 @@
+version: 2.1
+
+orbs:
+  swissknife: roopakv/swissknife@dev:alpha
+
+jobs:
+  run-tests:
+    docker:
+      - image: circleci/node:12
+    working_directory: /home/circleci/project/
+    parameters:
+      dir:
+        type: string
+        description: The directory to run tests for
+    steps:
+      - checkout
+      - run:
+          name: Run tests
+          command: |
+            cd << parameters.dir >>
+            bash run_tests.sh
+  
+  trigger-needed-workflows:
+    docker:
+      - image: circleci/node:12
+    working_directory: /home/circleci/project/
+    steps:
+      - checkout
+      - swissknife/trigger-workflows-for-all-modified:
+          base-branch: master
+          run-mode-for-base-branch: run_for_last_commit
+          use-divergence-point: true
+          code-param-name-map: '
+            [
+              {"regex": "^(clients|shared).*", "param_name": "run_client_workflow"},
+              {"regex": "^(server|shared).*", "param_name": "run_server_workflow"},
+              {"regex": "^(operations).*", "param_name": "run_operations_workflow"}
+            ]'
+          additional-param-map: '{"run_trigger_workflow": false}'
+
+workflows:
+  client-tests:
+    when: << pipeline.parameters.run_client_workflow >>
+    jobs:
+      - run-tests:
+          dir: clients
+          name: 'Client tests'
+      - run-tests:
+          dir: shared
+          name: 'Shared tests'
+  
+  server-tests:
+    when: << pipeline.parameters.run_server_workflow >>
+    jobs:
+      - run-tests:
+          dir: server
+          name: 'Server tests'
+      - run-tests:
+          dir: shared
+          name: 'Shared tests'
+  
+  operations-tests:
+    when: << pipeline.parameters.run_operations_workflow >>
+    jobs:
+      - run-tests:
+          dir: operations
+          name: 'Server tests'
+
+  trigger-needed-workflows:
+    when: << pipeline.parameters.run_trigger_workflow >>
+    jobs:
+      - trigger-needed-workflows
+
+parameters:
+  run_client_workflow:
+    default: false
+    type: boolean
+  run_server_workflow:
+    default: false
+    type: boolean
+  run_operations_workflow:
+    default: false
+    type: boolean
+  run_trigger_workflow:
+    default: true
+    type: boolean
