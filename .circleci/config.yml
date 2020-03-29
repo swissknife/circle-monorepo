@@ -11,7 +11,7 @@ jobs:
     parameters:
       dir:
         type: string
-        description: The directory to run tests for
+        description: The directory to run tests for.
     steps:
       - checkout
       - run:
