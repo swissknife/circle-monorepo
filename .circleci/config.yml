@@ -28,7 +28,7 @@ jobs:
       - checkout
       - swissknife/trigger-workflows-for-all-modified:
           base-branch: master
-          run-mode-for-base-branch: run_for_last_commit
+          run-mode-for-base-branch: run_all
           use-divergence-point: true
           code-param-name-map: '
             [
