@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  swissknife: roopakv/swissknife@dev:alpha
+  swissknife: roopakv/swissknife@0.28.0
 
 jobs:
   run-tests:
