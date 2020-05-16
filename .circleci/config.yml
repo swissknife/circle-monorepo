@@ -21,6 +21,7 @@ jobs:
             cd << parameters.dir >>
             echo $SWISSKNIFE_SHA
             echo $CIRCLE_SHA1
+            git branch
             git log -1
             bash run_tests.sh
 
