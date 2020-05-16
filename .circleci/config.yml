@@ -19,6 +19,8 @@ jobs:
           name: Run tests
           command: |
             cd << parameters.dir >>
+            echo $SWISSKNIFE_SHA
+            git log -1
             bash run_tests.sh
 
   trigger-needed-workflows:
