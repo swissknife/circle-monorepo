@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  swissknife: roopakv/swissknife@0.28.0
+  swissknife: roopakv/swissknife@0.35.0
 
 jobs:
   run-tests:
@@ -13,13 +13,14 @@ jobs:
         type: string
         description: The directory to run tests for.
     steps:
-      - checkout
+      - swissknife/sk-checkout:
+          swissknife_sha: << pipeline.parameters.swissknife_sha >>
       - run:
           name: Run tests
           command: |
             cd << parameters.dir >>
             bash run_tests.sh
-  
+
   trigger-needed-workflows:
     docker:
       - image: circleci/node:12
@@ -37,6 +38,7 @@ jobs:
               {"regex": "^(operations).*", "param_name": "run_operations_workflow"}
             ]'
           additional-param-map: '{"run_trigger_workflow": false}'
+          use-swissknife-sha: true
 
 workflows:
   client-tests:
@@ -48,7 +50,7 @@ workflows:
       - run-tests:
           dir: shared
           name: 'Shared tests'
-  
+
   server-tests:
     when: << pipeline.parameters.run_server_workflow >>
     jobs:
@@ -58,13 +60,13 @@ workflows:
       - run-tests:
           dir: shared
           name: 'Shared tests'
-  
+
   operations-tests:
     when: << pipeline.parameters.run_operations_workflow >>
     jobs:
       - run-tests:
           dir: operations
-          name: 'Server tests'
+          name: 'Operations tests'
 
   trigger-needed-workflows:
     when: << pipeline.parameters.run_trigger_workflow >>
@@ -84,3 +86,6 @@ parameters:
   run_trigger_workflow:
     default: true
     type: boolean
+  swissknife_sha:
+    default: ""
+    type: string
