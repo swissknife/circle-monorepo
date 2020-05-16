@@ -66,7 +66,7 @@ workflows:
     jobs:
       - run-tests:
           dir: operations
-          name: 'Operations tests'
+          name: 'Operations test'
 
   trigger-needed-workflows:
     when: << pipeline.parameters.run_trigger_workflow >>
