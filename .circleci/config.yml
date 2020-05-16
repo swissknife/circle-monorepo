@@ -20,6 +20,7 @@ jobs:
           command: |
             cd << parameters.dir >>
             echo $SWISSKNIFE_SHA
+            echo $CIRCLE_SHA1
             git log -1
             bash run_tests.sh
 
@@ -68,7 +69,7 @@ workflows:
     jobs:
       - run-tests:
           dir: operations
-          name: 'Server tests'
+          name: 'Operations tests'
 
   trigger-needed-workflows:
     when: << pipeline.parameters.run_trigger_workflow >>
