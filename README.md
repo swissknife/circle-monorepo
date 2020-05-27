@@ -1,4 +1,4 @@
-# circle-monorepo-via-swissknife
+# circle-monorepo
 
 This repo shows an example of a monorepo setup via swissknife
 
