@@ -16,7 +16,7 @@ jobs:
       - swissknife/sk-checkout:
           swissknife_sha: << pipeline.parameters.swissknife_sha >>
       - run:
-          name: Run tests
+          name: Run tests.
           command: |
             cd << parameters.dir >>
             bash run_tests.sh
