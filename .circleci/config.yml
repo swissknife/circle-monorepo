@@ -28,9 +28,9 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Run tests.
-        command: |
-          echo $SWISSKNIFE_API_KEY
+          name: Run tests.
+          command: |
+            echo $SWISSKNIFE_API_KEY
       - swissknife/trigger-workflows-for-all-modified:
           base-branch: master
           run-mode-for-base-branch: run_for_last_commit
