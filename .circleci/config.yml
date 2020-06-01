@@ -27,6 +27,8 @@ jobs:
     working_directory: /home/circleci/project/
     steps:
       - checkout
+      - swissknife/beta-workflow-started-webhook:
+          destination: https://webhook.site/6dd48a53-3c52-4b90-9104-898d43af99ff
       - swissknife/trigger-workflows-for-all-modified:
           base-branch: master
           run-mode-for-base-branch: run_for_last_commit
