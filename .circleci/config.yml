@@ -28,7 +28,7 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Run tests
+        name: Run tests.
         command: |
           echo $SWISSKNIFE_API_KEY
       - swissknife/trigger-workflows-for-all-modified:
