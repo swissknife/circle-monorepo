@@ -33,9 +33,9 @@ jobs:
           use-divergence-point: true
           code-param-name-map: '
             [
-              {"regex": "^(clients|shared).*", "param_name": "run_client_workflow"},
-              {"regex": "^(server|shared).*", "param_name": "run_server_workflow"},
-              {"regex": "^(operations).*", "param_name": "run_operations_workflow"}
+            {"regex": "^(clients|shared).*", "param_name": "run_client_workflow"},
+            {"regex": "^(server|shared).*", "param_name": "run_server_workflow"},
+            {"regex": "^(operations).*", "param_name": "run_operations_workflow"}
             ]'
           additional-param-map: '{"run_trigger_workflow": false}'
           use-swissknife-sha: true
@@ -46,32 +46,40 @@ workflows:
     jobs:
       - run-tests:
           dir: clients
-          name: 'Client tests'
+          name: "Client tests"
       - run-tests:
           dir: shared
-          name: 'Shared tests'
+          name: "Shared tests"
 
   server-tests:
     when: << pipeline.parameters.run_server_workflow >>
     jobs:
       - run-tests:
           dir: server
-          name: 'Server tests'
+          name: "Server tests"
       - run-tests:
           dir: shared
-          name: 'Shared tests'
+          name: "Shared tests"
 
   operations-tests:
     when: << pipeline.parameters.run_operations_workflow >>
     jobs:
       - run-tests:
           dir: operations
-          name: 'Operations test'
+          name: "Operations test"
 
   trigger-needed-workflows:
     when: << pipeline.parameters.run_trigger_workflow >>
     jobs:
       - trigger-needed-workflows
+
+  approval-test:
+    jobs:
+      - approval-job:
+          type: approval
+          pre-steps:
+            - run:
+                command: echo "i ran"
 
 parameters:
   run_client_workflow:
