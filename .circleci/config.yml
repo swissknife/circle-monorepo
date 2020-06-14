@@ -31,7 +31,7 @@ jobs:
           base-branch: master
           run-mode-for-base-branch: run_for_last_commit
           use-divergence-point: true
-          search-mode: grep
+          search-mode: perl
           code-param-name-map: '
             [
             {"regex": "^(clients(?!\/static/)).*", "param_name": "run_client_workflow"},
