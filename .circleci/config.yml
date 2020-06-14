@@ -74,8 +74,8 @@ workflows:
           dir: operations
           name: "Operations test"
       - run-tests:
-        dir: shared
-        name: "Shared tests"
+          dir: shared
+          name: "Shared tests"
 
   trigger-needed-workflows:
     when: << pipeline.parameters.run_trigger_workflow >>
