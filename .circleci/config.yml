@@ -35,6 +35,7 @@ jobs:
           code-param-name-map: '
             [
             {"regex": "^(clients(?!\/static/)).*", "param_name": "run_client_workflow"},
+            {"regex": "^(clients\/static/).*", "param_name": "run_static_workflow"},
             {"regex": "^(server|shared).*", "param_name": "run_server_workflow"},
             {"regex": "^(operations|shared).*", "param_name": "run_operations_workflow"}
             ]'
@@ -48,9 +49,13 @@ workflows:
       - run-tests:
           dir: clients
           name: "Client tests"
+
+  static-tests:
+    when: << pipeline.parameters.run_static_workflow >>
+    jobs:
       - run-tests:
-          dir: shared
-          name: "Shared tests"
+          dir: clients/static
+          name: "Static file processing"
 
   server-tests:
     when: << pipeline.parameters.run_server_workflow >>
@@ -68,6 +73,9 @@ workflows:
       - run-tests:
           dir: operations
           name: "Operations test"
+      - run-tests:
+        dir: shared
+        name: "Shared tests"
 
   trigger-needed-workflows:
     when: << pipeline.parameters.run_trigger_workflow >>
@@ -82,6 +90,9 @@ parameters:
     default: false
     type: boolean
   run_operations_workflow:
+    default: false
+    type: boolean
+  run_static_workflow:
     default: false
     type: boolean
   run_trigger_workflow:
