@@ -29,7 +29,13 @@ jobs:
       - checkout
       - swissknife/timed-cache:
           type: restore
-          cache-key-prefix: random-v2-{{ checksum "README.md" }}
+          cache-key-prefix: random-v3-{{ checksum "README.md" }}
+          base-branch: "roopak/test_cache"
+      - run:
+          command: |
+            mkdir -p /tmp/swissknife
+            echo "YOLO" >> /tmp/swissknife/some_file
+            echo "YOLO2" >> /tmp/swissknife/some_file2
       - swissknife/trigger-workflows-for-all-modified:
           base-branch: master
           run-mode-for-base-branch: run_for_last_commit
@@ -44,8 +50,9 @@ jobs:
           use-swissknife-sha: true
       - swissknife/timed-cache:
           type: save
-          cache-key-prefix: random-v2-{{ checksum "README.md" }}
+          cache-key-prefix: random-v3-{{ checksum "README.md" }}
           save-cache-directory-1: /tmp/swissknife
+          base-branch: "roopak/test_cache"
 
 workflows:
   client-tests:
