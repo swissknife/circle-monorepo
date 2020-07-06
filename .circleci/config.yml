@@ -29,7 +29,7 @@ jobs:
       - checkout
       - swissknife/timed-cache:
           type: restore
-          cache-key-prefix: random-v1-{{ checksum "README.me" }}
+          cache-key-prefix: random-v1-{{ checksum "README.md" }}
       - swissknife/trigger-workflows-for-all-modified:
           base-branch: master
           run-mode-for-base-branch: run_for_last_commit
@@ -44,7 +44,7 @@ jobs:
           use-swissknife-sha: true
       - swissknife/timed-cache:
           type: save
-          cache-key-prefix: random-v1-{{ checksum "README.me" }}
+          cache-key-prefix: random-v1-{{ checksum "README.md" }}
 
 workflows:
   client-tests:
