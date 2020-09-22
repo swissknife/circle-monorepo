@@ -60,7 +60,7 @@ workflows:
     jobs:
       - run-tests:
           dir: server
-          name: 'Server tests'
+          name: 'Server tests.'
       - run-tests:
           dir: shared
           name: 'Shared tests'
