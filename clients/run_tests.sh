@@ -1,4 +1,3 @@
 #!/bin/bash
 
-echo "This script would run client/ tests"
-echo "Hello world";
+echo "This script would run client/ tests";
